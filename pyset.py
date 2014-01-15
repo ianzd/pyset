@@ -24,11 +24,17 @@ class Card ():
         return (self.color,self.shape,self.shading,self.number)
 
 def debugp(message):
-    if args.debug:
-        print message
+    try:
+        if args.debug:
+            print message
+    except NameError:
+        pass
 
-def choosecards(deck, number):
+
+def choosecards(deck, number, remove=False):
     """ From a deck, return a list of randomly chosen cards of length "number"
+        If remove=True, delete the cards from the deck when chosen
+
 
     """
 
@@ -41,10 +47,12 @@ def choosecards(deck, number):
             debugp("Adding to set: ")
             debugp(newcard.getprops())
             selected.append(newcard)
+            if remove:
+                deck.remove(newcard)
         else:
             debugp ("******** Drew duplicate:")
             debugp (newcard.getprops())
-            exit
+            sys.exit
             pass
     debugp ("We have %d cards." % len(selected))
     return selected
